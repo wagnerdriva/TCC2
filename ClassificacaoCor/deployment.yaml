@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: color-classification
+  labels:
+    app: color-classification
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: color-classification
+  template:
+    metadata:
+      labels:
+        app: color-classification
+    spec:
+      containers:
+      - name: color-classification
+        image: wagnerrua/vehicle:color-classification
+        imagePullPolicy: Always
