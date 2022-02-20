@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plate-detection
+  labels:
+    app: plate-detection
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plate-detection
+  template:
+    metadata:
+      labels:
+        app: plate-detection
+    spec:
+      containers:
+      - name: plate-detection
+        image: wagnerrua/vehicle:plate-detection
+        imagePullPolicy: Always
