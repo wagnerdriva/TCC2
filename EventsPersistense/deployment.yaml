@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-persistence
+  labels:
+    app: events-persistence
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: events-persistence
+  template:
+    metadata:
+      labels:
+        app: events-persistence
+    spec:
+      containers:
+      - name: events-persistence
+        image: wagnerrua/vehicle:events-persistence
+        imagePullPolicy: Always

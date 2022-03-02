@@ -19,6 +19,8 @@ while True:
 
     future = producer.send('imagem_veiculo', event)
     result = future.get(timeout=60)
+    future = producer.send('event_bus', event)
+    result = future.get(timeout=60)
     print("Tracking enviou: ", event)
 
     time.sleep(10)
