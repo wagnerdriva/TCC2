@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracking
+  labels:
+    app: tracking
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tracking
+  template:
+    metadata:
+      labels:
+        app: tracking
+    spec:
+      containers:
+      - name: tracking
+        image: 192.168.200.110:5000/vehicle:trackingv2
+        imagePullPolicy: Always
+        env:
+        - name: KAFKA_BROKER
+          value: "labic-kafka.default.svc.cluster.local:9092"
+        - name: CUDA_VISIBLE_DEVICES
+          value: "0"
+        - name: KAFKA_PRODUCER_TOPIC
+          value: "imagem_veiculo"
+        - name: KAFKA_CONSUMER_TOPIC
+          value: "tracking"
+        - name: KAFKA_CONSUMER_GROUP
+          value: "tracking-group"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "0.5"
+          limits:
+            memory: "5Gi"
+            cpu: "2"
+            nvidia.com/gpu: 1
