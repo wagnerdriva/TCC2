@@ -1,0 +1,19 @@
+kind: Service
+apiVersion: v1
+metadata:
+ name: stream
+spec:
+  ports:
+    - protocol: TCP
+      port: 8556
+      targetPort: 8556
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+ name: stream
+subsets:
+ - addresses:
+     - ip: 192.168.200.110
+   ports:
+     - port: 8556

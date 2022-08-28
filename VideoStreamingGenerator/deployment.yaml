@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: video-streaming-generator
+  labels:
+    app: video-streaming-generator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: video-streaming-generator
+  template:
+    metadata:
+      labels:
+        app: video-streaming-generator
+    spec:
+      containers:
+      - name: video-streaming-generator
+        image: wagnerrua/vehicle:video-streaming-generator
+        imagePullPolicy: Always

@@ -1,20 +1,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: brand-classification
+  name: plate-detection
   labels:
-    app: brand-classification
+    app: plate-detection
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: brand-classification
+      app: plate-detection
   template:
     metadata:
       labels:
-        app: brand-classification
+        app: plate-detection
     spec:
       containers:
-      - name: brand-classification
-        image: wagnerrua/vehicle:brand-classification
+      - name: plate-detection
+        image: wagnerrua/vehicle:plate-detection
         imagePullPolicy: Always
+        env:
+        - name: KAFKA_BROKER
+          value: "labic-kafka.default.svc.cluster.local:9092"
+        - name: CUDA_VISIBLE_DEVICES
+          value: "0"
+        - name: KAFKA_PRODUCER_TOPIC1
+          value: "event_bus"
+        - name: KAFKA_PRODUCER_TOPIC2
+          value: "filtred_image"
+        - name: KAFKA_CONSUMER_TOPIC
+          value: "imagem_veiculo"
+        - name: KAFKA_CONSUMER_GROUP
+          value: "deteccao_placas"
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "0.5"
+          limits:
+            memory: "3Gi"
+            cpu: "1"
+            nvidia.com/gpu: 1

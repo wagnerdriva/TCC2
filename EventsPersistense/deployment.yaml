@@ -18,3 +18,19 @@ spec:
       - name: events-persistence
         image: wagnerrua/vehicle:events-persistence
         imagePullPolicy: Always
+        env:
+        - name: KAFKA_BROKER
+          value: "labic-kafka.default.svc.cluster.local:9092"
+        - name: MONGODB_URL
+          value: "mongodb://mongo:xxmOm3J7icJw6Swp@mongo:27017/"
+        - name: KAFKA_CONSUMER_TOPIC
+          value: "event_bus"
+        - name: KAFKA_CONSUMER_GROUP
+          value: "events-persistence"
+        resources:
+          requests:
+            memory: "250Mi"
+            cpu: "0.25"
+          limits:
+            memory: "1Gi"
+            cpu: "0.5"

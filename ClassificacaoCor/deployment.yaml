@@ -5,7 +5,7 @@ metadata:
   labels:
     app: color-classification
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: color-classification
@@ -18,3 +18,21 @@ spec:
       - name: color-classification
         image: wagnerrua/vehicle:color-classification
         imagePullPolicy: Always
+        env:
+        - name: KAFKA_BROKER
+          value: "labic-kafka.default.svc.cluster.local:9092"
+        - name: CUDA_VISIBLE_DEVICES
+          value: "-1"
+        - name: KAFKA_PRODUCER_TOPIC
+          value: "event_bus"
+        - name: KAFKA_CONSUMER_TOPIC
+          value: "filtred_image"
+        - name: KAFKA_CONSUMER_GROUP
+          value: "color_classification"
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "0.5"
+          limits:
+            memory: "2Gi"
+            cpu: "1"
