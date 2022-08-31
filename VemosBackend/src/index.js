@@ -10,4 +10,4 @@ app.use(cors()); // Habilita o acesso de qualquer aplicacao a esse backend
 
 app.use('/vemos/backend', require('./routes')); // Ativa todas as rotas que estao definidas no arquivo routes.js
 
-app.listen(3333); // Porta onde ficara o servidor, 3333 para desenvolvimento.
+app.listen(8080); // Porta onde ficara o servidor, 3333 para desenvolvimento.
