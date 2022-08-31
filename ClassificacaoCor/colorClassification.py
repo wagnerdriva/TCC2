@@ -14,12 +14,13 @@ print("Consumer group: ", os.getenv("KAFKA_CONSUMER_GROUP"))
 producer = KafkaProducer(value_serializer=lambda v: json.dumps(v).encode('utf-8'), bootstrap_servers=os.getenv("KAFKA_BROKER"))
 consumer = KafkaConsumer(os.getenv("KAFKA_CONSUMER_TOPIC"), group_id=os.getenv("KAFKA_CONSUMER_GROUP"), bootstrap_servers=os.getenv("KAFKA_BROKER"))
 
-print("Carregando modelo..")
 # load the model we saved
-model = load_model('./model/EfficientNetB1-ColorsV2-Final.hdf5')
+print("Carregando modelo: ", os.getenv("MODEL"))
+model = load_model(os.getenv("MODEL"))
 model.compile(optimizer=tf.keras.optimizers.Adam(0.0001), loss='categorical_crossentropy',metrics=['categorical_accuracy'])
 
-cores = ['Preto', 'Azul', 'Marrom', 'Amarelo', 'Verde', 'Vermelho', 'Prata', 'Branco']
+cores = os.getenv("CLASSES").split(",")
+print(cores, len(cores))
 
 print("Classificador de cores iniciado com sucesso...")
 
@@ -31,7 +32,8 @@ for msg in consumer:
     start = time.time()
     jpg_original = base64.b64decode(info["frame"])
     nparr = np.frombuffer(jpg_original, dtype=np.uint8)
-    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    img_bgr = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    img= cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
     img = cv2.resize(img, (299,299))
     img=np.expand_dims(img, axis=0)
 

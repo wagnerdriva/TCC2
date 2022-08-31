@@ -97,6 +97,11 @@ for msg in consumer:
 
     elif info["type"] == "CarClassification":
         model = choiceAttributes("possibleModels", "model")
+        model = model.split("_")
+        if len(model) > 1:
+            model = model[1]
+        else:
+            model = model[0]
         collection.update_one({ "id": id }, {"$set":{"model": model}})
 
         brand = choiceAttributes("possibleBrands", "brand")

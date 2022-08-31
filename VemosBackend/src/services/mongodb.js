@@ -8,7 +8,20 @@ const vehicleSchema = new mongoose.Schema({
     id: String,
     plate: String,
     model: String,
-    color: String
+    color: String,
+    category: String,
+    brand: String,
+    createdAt: Date,
 });
 
-module.exports = { mongoose, Vehicle: mongoose.model('Vehicle', vehicleSchema)};
+const alertaSchema = new mongoose.Schema({
+    email: { type: String, required: true },
+    plate: String,
+    model: String,
+    color: String,
+    category: String,
+    brand: String,
+    type: String
+});
+
+module.exports = { mongoose, Vehicle: mongoose.model('Vehicle', vehicleSchema), Alerta: mongoose.model('Alerta', alertaSchema)};

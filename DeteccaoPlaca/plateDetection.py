@@ -143,7 +143,9 @@ def detecta_placa(img):
                 _, curr_num = cv2.threshold(curr_num, 220, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
                 crop_characters.append(curr_num)
 
-    # print("Detect {} letters...".format(len(crop_characters)))
+    print("Detect {} letters...".format(len(crop_characters)))
+    if len(crop_characters) < 4:
+        return ""
 
     cols = len(crop_characters)
 

@@ -8,7 +8,7 @@ os.environ["MKL_NUM_THREADS"] = "4"
 os.environ["VECLIB_MAXIMUM_THREADS"] = "4"
 os.environ["NUMEXPR_NUM_THREADS"] = "4"
 
-import sys, json, base64, os
+import sys, json, base64, os, time
 from pathlib import Path
 import torch
 import torch.backends.cudnn as cudnn
@@ -28,6 +28,8 @@ consumer = KafkaConsumer(os.getenv("KAFKA_CONSUMER_TOPIC"), group_id=os.getenv("
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # yolov5 strongsort root directory
 WEIGHTS = ROOT / 'weights'
+RANDON_ID = round(time.time() * 1000)
+print("ID aleatorio: ", RANDON_ID)
 
 if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
@@ -40,7 +42,7 @@ ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 import logging
 from yolov5.models.common import DetectMultiBackend
 from yolov5.utils.dataloaders import VID_FORMATS, LoadImages, LoadStreams
-from yolov5.utils.general import (LOGGER, check_img_size, non_max_suppression, scale_coords, check_requirements, cv2,
+from yolov5.utils.general import (LOGGER, check_img_size, non_max_suppression, scale_coords, cv2,
                                   xyxy2xywh, increment_path, strip_optimizer, colorstr, print_args, check_file)
 from yolov5.utils.torch_utils import select_device, time_sync
 from yolov5.utils.plots import Annotator, colors, save_one_box
@@ -254,7 +256,7 @@ def run(
                                     img_bytes = base64.b64encode(cv2.imencode('.jpg', img)[1]).decode()
 
                                     data = {
-                                        "vehicleID": id,
+                                        "vehicleID": int(id)*RANDON_ID,
                                         "frame": img_bytes,
                                         "conf": conf.item(),
                                         "type": "NewVehicle"
@@ -343,9 +345,12 @@ def parse_opt():
 
 for msg in consumer:
     info = json.loads(msg.value)
-    check_requirements(requirements=ROOT / 'requirements.txt', exclude=('tensorboard', 'thop'))
-    run(**info)
+    #check_requirements(requirements=ROOT / 'requirements.txt', exclude=('tensorboard', 'thop'))
 
+    try:
+        run(**info)
+    except Exception as e: 
+        print(e)
 
 # def main(opt):
 #     check_requirements(requirements=ROOT / 'requirements.txt', exclude=('tensorboard', 'thop'))

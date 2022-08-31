@@ -6,7 +6,7 @@ server_url = "http://192.168.200.110:8556"
 
 process = (
     ffmpeg
-    .input("videos/Westphalen-OneMinute-10fps.mp4")
+    .input("videos/Westphalen-10fps.mp4")
     .output(
         server_url, 
         codec = "copy", # use same codecs of the original video

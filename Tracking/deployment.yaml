@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: tracking
-        image: 192.168.200.110:5000/vehicle:trackingv2
+        image: wagnerrua/vehicle:tracking
         imagePullPolicy: Always
         env:
         - name: KAFKA_BROKER

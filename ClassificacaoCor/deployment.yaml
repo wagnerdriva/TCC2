@@ -5,7 +5,7 @@ metadata:
   labels:
     app: color-classification
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: color-classification
@@ -14,6 +14,10 @@ spec:
       labels:
         app: color-classification
     spec:
+      volumes:
+        - name: model-pv-storage # nome do volume da aplicação
+          persistentVolumeClaim:
+            claimName: pv-claim-models
       containers:
       - name: color-classification
         image: wagnerrua/vehicle:color-classification
@@ -29,6 +33,10 @@ spec:
           value: "filtred_image"
         - name: KAFKA_CONSUMER_GROUP
           value: "color_classification"
+        - name: MODEL
+          value: "models/Xcpetion-CarrosV2/CarrosPorCor-03-0.23-0.93.hdf5"
+        - name: CLASSES
+          value: "Amarelo,Azul,Branco,Laranja,Marrom,Prata,Preto,Verde,Vermelho"
         resources:
           requests:
             memory: "500Mi"
@@ -36,3 +44,6 @@ spec:
           limits:
             memory: "2Gi"
             cpu: "1"
+        volumeMounts:
+        - name: model-pv-storage 
+          mountPath: /app/models

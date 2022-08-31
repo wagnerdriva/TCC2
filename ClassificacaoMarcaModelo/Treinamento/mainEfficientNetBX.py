@@ -3,18 +3,18 @@ import keras
 from tensorflow.keras.models import Model
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D
-from tensorflow.keras.applications import EfficientNetB1
+from tensorflow.keras.applications.efficientnet_v2 import EfficientNetV2S
 
 import os
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ["CUDA_VISIBLE_DEVICES"]="0"  # specify which GPU(s) to be used
 
-image_size = (240, 240)
+image_size = (300, 300)
 batch_size = 32
 
 train_ds = tf.keras.preprocessing.image_dataset_from_directory(
-    "Data/clean2",
+    "Data/CarrosV2/CarrosPorModelos",
     validation_split=0.2,
     subset="training",
     seed=1337,
@@ -24,7 +24,7 @@ train_ds = tf.keras.preprocessing.image_dataset_from_directory(
 )
 
 val_ds = tf.keras.preprocessing.image_dataset_from_directory(
-    "Data/clean2",
+    "Data/CarrosV2/CarrosPorModelos",
     validation_split=0.2,
     subset="validation",
     seed=1337,
@@ -45,11 +45,11 @@ data_augmentation = keras.Sequential(
 
 augmented_train_ds = train_ds.map(lambda x, y: (data_augmentation(x, training=True), y))
 
-train_ds = augmented_train_ds.prefetch(buffer_size=32)
-val_ds = val_ds.prefetch(buffer_size=32)
+train_ds = augmented_train_ds.cache().prefetch(buffer_size=tf.data.AUTOTUNE)
+val_ds = val_ds.cache().prefetch(buffer_size=tf.data.AUTOTUNE)
 
- # Use pre-trained EfficientNetB1 model
-base_model = EfficientNetB1(weights='imagenet', include_top=False)
+ # Use pre-trained EfficientNetV2S model
+base_model = EfficientNetV2S(weights='imagenet', include_top=False)
 
 # Allow parameter updates for all layers
 base_model.trainable = True
@@ -71,7 +71,7 @@ early_stopping = EarlyStopping(monitor='val_loss',
                                 patience=12,
                                 restore_best_weights=True)
 
-checkpoint = ModelCheckpoint("models/EfficientNetB1-ColorsV2-{epoch:02d}-{val_loss:.2f}-{val_categorical_accuracy:.2f}.hdf5", monitor='val_loss', verbose=1, save_best_only=True, mode='auto')
+checkpoint = ModelCheckpoint("models/EfficientNetV2S-CarrosV2/CarrosPorModeloGrayscale-{epoch:02d}-{val_loss:.2f}-{val_categorical_accuracy:.2f}.hdf5", monitor='val_loss', verbose=1, save_best_only=True, mode='auto')
 
 callbacks = [early_stopping, checkpoint]
 
@@ -82,18 +82,18 @@ history = model.fit(train_ds,
                     callbacks=callbacks)
 
 
-model.save("models/EfficientNetB1-ColorsV2-Final.hdf5")
+model.save("models/EfficientNetV2S-CarrosV2/CarrosPorModeloGrayscale-Final.hdf5")
 
 import matplotlib.pyplot as plt
 
 plt.plot(history.history['loss'], label='train loss')
 plt.plot(history.history['val_loss'], label='val loss')
 plt.legend()
-plt.savefig('images/EfficientNet/LossVal_lossEfficientNetB1-ColorsV2.png')
+plt.savefig('images/EfficientNetV2S-CarrosV2/AccVal_CarrosPorModeloGrayscale.png')
 
 plt.clf()
 
 plt.plot(history.history['categorical_accuracy'], label='train acc')
 plt.plot(history.history['val_categorical_accuracy'], label='val acc')
 plt.legend()
-plt.savefig('images/EfficientNet/AccVal_accEfficientNetB1-ColorsV2.png')
+plt.savefig('images/EfficientNetV2S-CarrosV2/AccVal_accCarrosPorModeloGrayscale.png')

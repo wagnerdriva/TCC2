@@ -5,7 +5,7 @@ metadata:
   labels:
     app: brand-classification
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: brand-classification
@@ -14,6 +14,10 @@ spec:
       labels:
         app: brand-classification
     spec:
+      volumes:
+        - name: model-pv-storage # nome do volume da aplicação
+          persistentVolumeClaim:
+            claimName: pv-claim-models
       containers:
       - name: brand-classification
         image: wagnerrua/vehicle:brand-classification
@@ -29,6 +33,12 @@ spec:
           value: "filtred_image"
         - name: KAFKA_CONSUMER_GROUP
           value: "brand_classification"
+        - name: MODEL_CATEGORIAS
+          value: "models/EfficientNetB3-CarrosV2/CarrosPorCategorias-05-0.20-0.94.hdf5"
+        - name: MODEL_MARCAS
+          value: "models/EfficientNetB3-CarrosV2/CarrosPorMarcas-23-0.17-0.96.hdf5"
+        - name: MODEL_MODELOS
+          value: "models/EfficientNetB3-CarrosV2/CarrosPorModelos-08-0.46-0.88.hdf5"
         resources:
           requests:
             memory: "500Mi"
@@ -36,3 +46,6 @@ spec:
           limits:
             memory: "2Gi"
             cpu: "1"
+        volumeMounts:
+        - name: model-pv-storage 
+          mountPath: /app/models
