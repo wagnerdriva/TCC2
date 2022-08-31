@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: vemos-frontend
+  name: vemos-frontend
+spec:
+  type: NodePort
+  ports:
+    - port: 5173
+      targetPort: 5173
+      nodePort: 30001
+  selector:
+    app: vemos-frontend
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vemos-frontend
+  labels:
+    app: vemos-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vemos-frontend
+  template:
+    metadata:
+      labels:
+        app: vemos-frontend
+    spec:
+      containers:
+      - name: vemos-frontend
+        ports:
+          - containerPort: 5173
+        image: wagnerrua/vehicle:vemos-frontend
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "250Mi"
+            cpu: "0.25"
+          limits:
+            memory: "1Gi"
+            cpu: "0.5"

@@ -1,0 +1,318 @@
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 50px repeat(3, 1fr) 3fr;
+    grid-template-areas: 
+    "header header header"
+    "chip graph1 graph2"
+    "list graph1 graph2"
+    "list graph1 graph2"
+    "list info info";
+    gap: 20px;
+    place-items: center;
+    place-content: stretch;  
+    margin: 20px;
+}
+
+p {
+    color: #5A5A5A;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 20px 0px 10px 40px;
+}
+
+.header {
+    grid-area: header;
+    margin-top: 30px;
+}
+
+.header .filter {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.header .filter .button-filter {
+    width: 100px;
+    height: 43px;
+    background-color: #852BFF;
+    color: #FFF;
+    border: none;
+    border-radius: 10px;
+    font-size: 17;
+    font-weight: bold;
+}
+
+.header .filter .button-filter:hover {
+    color: #852BFF;
+    background-color: #FFF;
+    border: 2px solid #852BFF;
+    cursor: pointer;
+}
+
+.button-add {
+    background-color: transparent;
+    margin-top: 5px;
+    color: #852BFF;
+    font-size: 40px;
+    border: 0;
+    cursor: pointer;
+}
+
+.autocompletes {
+    display: flex;
+}
+
+.filter-bar {
+    margin: 0px 20px 0px 0px;
+}
+
+.filter-bar .MuiInputBase-root {
+    border-radius: 10px;
+    background-color: white;
+    height: 50px;
+}
+
+.filter-chip {
+    background-color: #FFF;
+    color: #852BFF;
+    padding: 12px;
+    margin: 6px 10px;
+    border: 1px solid #852BFF;
+    border-radius: 30px;
+    height: 12px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.header hr {
+    width: 96vw;
+    border: 1px solid #E4E4E4;
+}
+
+.header p {
+    color: #5000BD;
+    font-size: 29px;
+    font-weight: bold;
+    margin: 20px 30px;
+}
+
+.chip {
+    grid-area: chip;
+    margin-top: 20px;
+}
+
+.chip h2 {
+    color: #5000BD;
+    font-size: 40px;
+    font-weight: bold;
+    margin: 0px 0px 20px 40px;
+}
+
+.graphs {
+    margin: 0 auto;
+}
+
+.graph-1 {
+    grid-area: graph1;
+    margin-top: 20px;
+    padding: 5px;
+}
+
+.graph-2 {
+    padding: 5px;
+    grid-area: graph2;
+    margin-top: 20px;
+}
+
+.list {
+    grid-area: list;
+    overflow-y: scroll;
+    max-height: 730px;
+}
+
+.list p{
+    margin: 30px 30px;
+}
+
+.list::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+.list::-webkit-scrollbar-track {
+    background: #FFFFFF;
+}
+  
+/* Handle */
+.list::-webkit-scrollbar-thumb {
+    border-radius: 30px;
+    background: #852BFF;
+}
+
+.list hr{
+    width: 90%;
+    border: 1px solid #E4E4E4;
+}
+
+.list .li {
+    margin: 20px 0 20px 30px;
+}
+
+.list .li div{
+    display: flex;
+    align-items: center;
+}
+
+.list .li h2{
+    width: 100%;
+    font-size: 19px;
+    margin: 0px 0 0 12px;
+}
+
+.list .li p{
+    font-size: 15px;
+    margin: 0 0 0 50px;
+}
+
+.item {
+    place-self: stretch;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+}
+
+
+/* Customize the label (the container) */
+.check {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.check input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 2px solid #5A5A5A;
+    border-radius: 5px;
+}
+
+/* When the checkbox is checked, add a blue background */
+.check input:checked ~ .checkmark {
+    background-color: #852BFF;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.check input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.info {
+    grid-area: info;
+    height: 400px;
+}
+
+.info p {
+    color: #852BFF;
+    margin: 20px 0px 10px 40px;
+}
+
+.vehicle-container {
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.vehicle-info {
+    width: 60%;
+    display: inline-block;
+}
+
+.vehicle-info hr {
+    color: #5A5A5A;
+    margin: 0px 30px;
+}
+
+.vehicle-item {
+    width: 100%;
+    display: flex;
+    margin: 20px 10px;
+}
+
+.vehicle-chip {
+    width: 150px;
+    margin: 0px 20px;
+}
+
+.vehicle-chip p {
+    color: #5A5A5A;
+    margin: 0;
+}
+
+.vehicle-chip h1 {
+    margin: 0;
+    color: #5A5A5A;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.data {
+    width: 400px;
+}
+
+.data h1 {
+    font-size: 20px;
+}
+
+.carousel {
+    width: 300px;
+    height: 250px;
+    border: 2px solid #E4E4E4;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.carousel img {
+    width: 300px;
+    height: 250px;
+    border-radius: 5px;
+}
+
+.carousel #button {
+    background-color: transparent;
+    color: #fff;
+    font-size: 25px;
+    font-weight: 900;
+    border: 0;
+    cursor: pointer;
+}
+

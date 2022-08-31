@@ -1,0 +1,28 @@
+.navbar {
+    height: 50px;
+    background-color: #5000BD;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+#logo-navbar {
+    height: 30px;
+    margin-left: 20px;
+}
+
+.links {
+    font-size: 18px;
+    font-weight: 300;
+    color: #FFFFFF;
+    margin-left: 40px;
+    text-decoration: none;
+}
+
+.active {
+    font-weight: bold;
+}
+
+.links:hover {
+    font-weight: bold;
+}
